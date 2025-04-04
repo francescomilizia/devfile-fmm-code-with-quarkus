@@ -38,6 +38,7 @@ public class CpuBurnResource {
     @Path("/burn-multi")
     public Response burnCpuMultiCore(@QueryParam("ms") long milliseconds,
                                      @QueryParam("cores") int cores) {
+
         if (milliseconds <= 0 || cores <= 0) {
 //            return Response.status(Response.Status.BAD_REQUEST)
 //                           .entity("Valori 'ms' e 'cores' devono essere > 0")
@@ -79,10 +80,12 @@ public class CpuBurnResource {
     @GET
     @Path("/burn-loop-random")
     public Response burnLoopRandom() {
+        System.out.println("Ricevuta richiesta loop di burn");
+
         new Thread(() -> {
             for (int i = 1; i <= 5; i++) {
-                int randomCores = 1 + random.nextInt(4); // 1-4 core
-                long randomMs = 1000 + random.nextInt(19001); // 1000-20000 ms
+                int randomCores = 1 + random.nextInt(5); // 1-5 core
+                long randomMs = 10000 + random.nextInt(20001); // 10000-30000 ms
 
                 System.out.printf("Ciclo %d: occupo %d core per %d ms%n", i, randomCores, randomMs);
                 long end = System.currentTimeMillis() + randomMs;
